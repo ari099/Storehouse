@@ -11,6 +11,11 @@ h1,h2,h3,h4,h5,h6,.storehouse_heading {
    white-space: normal;
 }
 
+.storehouse-btn {
+   font-family: 'Food Secret';
+   border-radius: 0px;
+}
+
 .storehouse_jumbotron {
    border-radius: 0px;
    /* background: rgba(0, 0, 0, 0.5); */
@@ -26,6 +31,10 @@ h1,h2,h3,h4,h5,h6,.storehouse_heading {
 
 .storehouse_table {
    background: rgba(0, 0, 0, 0.5);
+}
+
+.storehouse_table th {
+   font-family: 'Food Secret';
 }
 
 .storehouse_textarea {
