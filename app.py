@@ -1,12 +1,20 @@
 #!/bin/python
 
 from flask import *
+from custom import query
 
 # Flask app object...
 app = Flask(__name__)
 
 @app.route('/', methods=['GET'])
 def index():
+    if request.method == 'POST':
+        content = request.json
+        db_name = content["db_name"]
+        sql = content["query"]
+        results = query(db_name, sql)
+        return json.dumps(results)
+
     return render_template('index.html', page='Home Page')
 
 @app.route('/about/', methods=['GET'])

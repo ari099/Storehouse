@@ -14,11 +14,25 @@ h1,h2,h3,h4,h5,h6,.storehouse_heading {
 .storehouse-btn {
    font-family: 'Food Secret';
    border-radius: 0px;
+   margin: 10px;
+}
+
+.storehouse_column {
+   color: rgb(150, 150, 150);
 }
 
 .storehouse_jumbotron {
    border-radius: 0px;
    /* background: rgba(0, 0, 0, 0.5); */
+}
+
+.storehouse_label {
+   padding-top: 5px;
+   padding-bottom: 5px;
+   padding-left: 25px;
+   padding-right: 25px;
+   font-family: 'Food Secret';
+   margin: 10px;
 }
 
 .storehouse_navbar_brand {
@@ -34,7 +48,11 @@ h1,h2,h3,h4,h5,h6,.storehouse_heading {
 }
 
 .storehouse_table th {
-   font-family: 'Food Secret';
+   font-family: 'Folktale';
+}
+
+.storehouse_table td {
+   font-family: 'Lucida Console';
 }
 
 .storehouse_textarea {
@@ -46,7 +64,7 @@ h1,h2,h3,h4,h5,h6,.storehouse_heading {
    border: 1px solid rgb(252, 118, 118);
    height: 250px;
    width: 100%;
-   font-family: 'Segoe UI Semibold';
+   font-family: 'Lucida Console';
 }
 
 .storehouse_textarea:focus {

@@ -1,5 +1,31 @@
 'use strict';
 
+// Components
+/**
+ * Textbox component
+ * @param props 
+ */
+const TextBox = props => {
+   return (
+      <input
+         className="storehouse_textbox form-control-lg text-white bg-dark"
+         name={props.name}
+         type="text"
+         placeholder={props.placeholder} />
+   );
+};
+
+/**
+ * Label component
+ * @param props 
+ */
+const Label = props => {
+   return (
+      <div
+         className="storehouse_label bg-dark text-white">{props.text.toUpperCase()}</div>
+   );
+}
+
 /**
  * Line component
  * @param props 
@@ -23,7 +49,10 @@ const NavigationBar = props => {
          </button>
          <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div className="navbar-nav">
-               <NavigationForm />
+               <NavigationForm
+                  run={props.handleQuery}
+                  open={props.handleOpenDB}
+                  save={props.handleSaveDB} />
             </div>
          </div>
       </nav>
@@ -40,17 +69,25 @@ const NavigationForm = props => {
       <form className="form-inline">
          <div className="storehouse-form-group form-group">
             <Button
+               id="run_query"
                classes="storehouse-btn btn btn-danger nav-item"
-               type="button"
+               onClick={props.run}
+               type="submit"
                text="Run" />
             <Button
+               id="open_db"
                classes="storehouse-btn btn btn-danger nav-item"
-               type="button"
+               onClick={props.open}
+               type="submit"
                text="Open DB" />
             <Button
+               id="save_db"
                classes="storehouse-btn btn btn-danger nav-item"
-               type="button"
+               onClick={props.save}
+               type="submit"
                text="Save DB" />
+            <Label
+               text="demo" />
          </div>
       </form>
    );
@@ -76,7 +113,7 @@ const QueryTextArea = props => {
    return (
       <form className="storehouse_jumbotron">
          <div className="storehouse_form_group form-group">
-            <textarea className="storehouse_textarea form-control" placeholder="Enter your query...."></textarea>
+            <textarea id="query" className="storehouse_textarea form-control" placeholder="Enter your query...."></textarea>
          </div>
          <ResultsTable />
       </form>
@@ -92,14 +129,59 @@ const ResultsTable = props => {
       <div className="storehouse_form_group form-group">
          <table className="storehouse_table table">
             <thead>
-               <tr>
-                  <th scope="col">ID</th>
-               </tr>
+               <ResultsTableHeadingRow />
             </thead>
+            <tbody>
+               <ResultsTableRow />
+            </tbody>
          </table>
       </div>
    );
 };
+
+/**
+ * Table heading row for the ResultsTable component
+ * @param props 
+ */
+const ResultsTableHeadingRow = props => {
+   return (
+      <tr>
+         <ResultsTableHeadingCell text="ID" />
+      </tr>
+   );
+}
+
+/**
+ * Table row for the ResultsTable component
+ * @param props 
+ */
+const ResultsTableRow = props => {
+   return (
+      <tr>
+         <ResultsTableCell text="(data)" />
+      </tr>
+   );
+}
+
+/**
+ * Table heading cell for the ResultsTable component
+ * @param props 
+ */
+const ResultsTableHeadingCell = props => {
+   return (
+      <th className="storehouse_column border border-danger" scope="col">{props.text}</th>
+   )
+}
+
+/**
+ * Table cell for the ResultsTable component
+ * @param props 
+ */
+const ResultsTableCell = props => {
+   return (
+      <td className="storehouse_column border border-danger" scope="col">{props.text}</td>
+   )
+}
 
 /**
  * Button component
@@ -108,6 +190,7 @@ const ResultsTable = props => {
 const Button = props => {
    return (
       <input
+         id={props.id}
          name="storehouse_nav_button"
          type={props.type}
          className={props.classes}
@@ -124,12 +207,53 @@ class App extends React.Component {
       this.state = {
          results: []
       };
+      this.handleQuery = this.handleQuery.bind(this);
+      this.handleOpenDB = this.handleOpenDB.bind(this);
+      this.handleSaveDB = this.handleSaveDB.bind(this);
+   }
+
+   /**
+    * Query the SQLite database
+    */
+   handleQuery(e) {
+      e.preventDefault();
+
+      // let newQuery = {
+      //    "db_name": "demo",
+      //    "query": document.getElementById("query").value
+      // };
+
+      // fetch("/", { method: 'POST', headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' }, body: JSON.stringify(newQuery) })
+      //    .then(res => res.json())
+      //    .then(data => {
+      //       let results = data.map(ingredient => {
+      //          return (
+      //             <ResultsTableRow />
+      //          );
+      //       });
+      //       this.setState({results: results});
+      //    }
+      // );
+      console.log("run");
+   }
+
+   handleOpenDB(e) {
+      e.preventDefault();
+      console.log("open");
+   }
+
+   handleSaveDB(e) {
+      e.preventDefault();
+      console.log("save");
    }
 
    render() {
       return (
          <>
-            <NavigationBar />
+            <NavigationBar
+               run={this.props.handleQuery}
+               open={this.props.handleOpenDB}
+               save={this.props.handleSaveDB} />
             <Line />
             <QueryForm />
          </>
