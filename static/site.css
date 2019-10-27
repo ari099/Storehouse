@@ -21,6 +21,10 @@ h1,h2,h3,h4,h5,h6,.storehouse_heading {
    color: rgb(150, 150, 150);
 }
 
+.storehouse_query_button_image {
+   width: 20px;
+}
+
 .storehouse_jumbotron {
    border-radius: 0px;
    /* background: rgba(0, 0, 0, 0.5); */
@@ -68,7 +72,8 @@ h1,h2,h3,h4,h5,h6,.storehouse_heading {
 }
 
 .storehouse_textarea:focus {
+   outline: none !important;
    background: rgba(0, 0, 0, 0.5);
    color: white;
-   border: 1px solid rgb(252, 118, 118);
+   border: 1px solid white;
 }

@@ -72,20 +72,17 @@ const NavigationForm = props => {
                id="run_query"
                classes="storehouse-btn btn btn-danger nav-item"
                onClick={props.run}
-               type="submit"
-               text="Run" />
+               imageUrl="./static/storehouse_run.svg" />
             <Button
                id="open_db"
                classes="storehouse-btn btn btn-danger nav-item"
                onClick={props.open}
-               type="submit"
-               text="Open DB" />
+               imageUrl="./static/storehouse_open_db.svg" />
             <Button
                id="save_db"
                classes="storehouse-btn btn btn-danger nav-item"
                onClick={props.save}
-               type="submit"
-               text="Save DB" />
+               imageUrl="./static/storehouse_save_db.svg" />
             <Label
                text="demo" />
          </div>
@@ -189,12 +186,13 @@ const ResultsTableCell = props => {
  */
 const Button = props => {
    return (
-      <input
+      <button
          id={props.id}
          name="storehouse_nav_button"
-         type={props.type}
-         className={props.classes}
-         value={props.text} />
+         onClick={props.onClick}
+         className={props.classes}>
+         <img className="storehouse_query_button_image" src={props.imageUrl} />
+      </button>
    );
 };
 
