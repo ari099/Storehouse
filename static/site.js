@@ -22,8 +22,28 @@ const TextBox = props => {
 const Label = props => {
    return (
       <div
+         id={props.id}
          className="storehouse_label bg-dark text-white">{props.text.toUpperCase()}</div>
    );
+}
+
+/**
+ * Special selectbox for showing the tables in the
+ * current database
+ * @param props 
+ */
+const TableSelectBox = props => {
+   return (
+      <select className="storehouse_select form-control text-white bg-dark">
+         {props.children}
+      </select>
+   )
+}
+
+const TableSelectOption = props => {
+   return (
+      <option value={props.value}>{props.value}</option>
+   )
 }
 
 /**
@@ -36,24 +56,32 @@ const Line = props => {
    );
 };
 
+const Image = props => {
+   return (
+      <img className="storehouse_image" src={props.sourcePath} />
+   );
+}
+
 /**
  * Navigation bar React component
  * @param props 
  */
 const NavigationBar = props => {
    return (
-      <nav className="navbar navbar-expand-lg navbar-dark bg-danger">
-         <a className="storehouse_navbar_brand navbar-brand" href="/">Storehouse</a>
+      <nav className="storehouse-navbar navbar navbar-expand-lg navbar-dark">
+         <a className="storehouse_navbar_brand navbar-brand" href="/">
+            <Image sourcePath="./static/storehouse-cube-logo(1).png" />
+         </a>
          <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
             <span className="navbar-toggler-icon"></span>
          </button>
          <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
-            <div className="navbar-nav">
-               <NavigationForm
-                  run={props.handleQuery}
-                  open={props.handleOpenDB}
-                  save={props.handleSaveDB} />
-            </div>
+            <NavigationForm
+               run={props.handleQuery}
+               open={props.handleOpenDB}
+               save={props.handleSaveDB}
+               db_name={props.db_name}
+               options={props.options} />
          </div>
       </nav>
    );
@@ -66,25 +94,29 @@ const NavigationBar = props => {
  */
 const NavigationForm = props => {
    return (
-      <form className="form-inline">
+      <form className="form-inline navbar-nav">
          <div className="storehouse-form-group form-group">
             <Button
                id="run_query"
-               classes="storehouse-btn btn btn-danger nav-item"
+               classes="storehouse-btn btn nav-item"
                onClick={props.run}
                imageUrl="./static/storehouse_run.svg" />
             <Button
                id="open_db"
-               classes="storehouse-btn btn btn-danger nav-item"
+               classes="storehouse-btn btn nav-item"
                onClick={props.open}
                imageUrl="./static/storehouse_open_db.svg" />
             <Button
                id="save_db"
-               classes="storehouse-btn btn btn-danger nav-item"
+               classes="storehouse-btn btn nav-item"
                onClick={props.save}
                imageUrl="./static/storehouse_save_db.svg" />
             <Label
-               text="demo" />
+               id="db_name"
+               text={props.db_name} />
+            <TableSelectBox>
+               {props.options}
+            </TableSelectBox>
          </div>
       </form>
    );
@@ -97,7 +129,7 @@ const NavigationForm = props => {
 const QueryForm = props => {
    return (
       <div className="container-fluid">
-         <QueryTextArea />
+         <QueryTextArea onLoad={props.onLoad} records={props.records} />
       </div>
    );
 };
@@ -110,9 +142,13 @@ const QueryTextArea = props => {
    return (
       <form className="storehouse_jumbotron">
          <div className="storehouse_form_group form-group">
-            <textarea id="query" className="storehouse_textarea form-control" placeholder="Enter your query...."></textarea>
+            <textarea
+               id="query"
+               className="storehouse_textarea form-control"
+               placeholder="Enter your query...."
+               defaultValue="SELECT * FROM demo"></textarea>
          </div>
-         <ResultsTable />
+         <ResultsTable onLoad={props.onLoad} records={props.records} />
       </form>
    );
 };
@@ -126,10 +162,12 @@ const ResultsTable = props => {
       <div className="storehouse_form_group form-group">
          <table className="storehouse_table table">
             <thead>
-               <ResultsTableHeadingRow />
+               <ResultsTableHeadingRow>
+                  {/* <ResultsTableHeadingCell text="ID" /> */}
+               </ResultsTableHeadingRow>
             </thead>
             <tbody>
-               <ResultsTableRow />
+               {props.records}
             </tbody>
          </table>
       </div>
@@ -143,7 +181,7 @@ const ResultsTable = props => {
 const ResultsTableHeadingRow = props => {
    return (
       <tr>
-         <ResultsTableHeadingCell text="ID" />
+         {props.children}
       </tr>
    );
 }
@@ -155,7 +193,7 @@ const ResultsTableHeadingRow = props => {
 const ResultsTableRow = props => {
    return (
       <tr>
-         <ResultsTableCell text="(data)" />
+         {props.children}
       </tr>
    );
 }
@@ -213,35 +251,45 @@ class App extends React.Component {
    /**
     * Query the SQLite database
     */
-   handleQuery(e) {
+   handleQuery = (e) => {
       e.preventDefault();
 
-      // let newQuery = {
-      //    "db_name": "demo",
-      //    "query": document.getElementById("query").value
-      // };
+      let newQuery = {
+         "db_name": document.getElementById("db_name").value.toLowerCase(),
+         "sql": document.getElementById("query").value
+      };
 
-      // fetch("/", { method: 'POST', headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' }, body: JSON.stringify(newQuery) })
-      //    .then(res => res.json())
-      //    .then(data => {
-      //       let results = data.map(ingredient => {
-      //          return (
-      //             <ResultsTableRow />
-      //          );
-      //       });
-      //       this.setState({results: results});
-      //    }
-      // );
+      fetch("/", { method: 'POST', headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' }, body: JSON.stringify(newQuery) })
+         .then(res => res.json())
+         .then(data => {
+            let records = data.map(record => {
+               return (
+                  <ResultsTableRow>
+                     {record.map(cell => {
+                        return (
+                           <ResultTableCell text={cell} />
+                        );
+                     })}
+                  </ResultsTableRow>
+               );
+            });
+            this.setState({results: records});
+         }
+      );
       console.log("run");
    }
 
-   handleOpenDB(e) {
-      e.preventDefault();
+   /**
+    * Upload a SQLite 3 database to the API
+    */
+   handleOpenDB = () => {
       console.log("open");
    }
 
-   handleSaveDB(e) {
-      e.preventDefault();
+   /**
+    * Download the current SQLite 3 database from the API
+    */
+   handleSaveDB = () => {
       console.log("save");
    }
 
@@ -249,11 +297,14 @@ class App extends React.Component {
       return (
          <>
             <NavigationBar
-               run={this.props.handleQuery}
-               open={this.props.handleOpenDB}
-               save={this.props.handleSaveDB} />
+               run={this.handleQuery}
+               open={this.handleOpenDB}
+               save={this.handleSaveDB}
+               db_name="demo" />
             <Line />
-            <QueryForm />
+            <QueryForm
+               records={this.state.results}
+               onLoad={this.handleQuery.bind(this)} />
          </>
       );
    }

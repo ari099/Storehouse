@@ -11,7 +11,7 @@ def index():
     if request.method == 'POST':
         content = request.json
         db_name = content["db_name"]
-        sql = content["query"]
+        sql = content["sql"]
         results = query(db_name, sql)
         return json.dumps(results)
 
