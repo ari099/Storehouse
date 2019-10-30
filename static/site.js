@@ -34,7 +34,7 @@ const Label = props => {
  */
 const TableSelectBox = props => {
    return (
-      <select className="storehouse_select form-control text-white bg-dark">
+      <select className="storehouse_select container form-control text-white bg-dark">
          {props.children}
       </select>
    )
@@ -124,7 +124,7 @@ const NavigationForm = props => {
  */
 const QueryForm = props => {
    return (
-      <div onLoad={props.onLoad} className="container-fluid">
+      <div className="container-fluid">
          <form className="storehouse_jumbotron">
             <div className="storehouse_form_group form-group">
                <textarea
@@ -165,11 +165,11 @@ const QueryTextArea = props => {
  */
 const ResultsTable = props => {
    return (
-      <div onLoad={props.onLoad} className="storehouse_form_group form-group">
+      <div onLoad={props.onLoad} className="storehouse_form_group storehouse_form_group_table form-group">
          <table className="storehouse_table table">
             <thead>
                <ResultsTableHeadingRow>
-                  {/* <ResultsTableHeadingCell text="ID" /> */}
+                  {props.record_headings}
                </ResultsTableHeadingRow>
             </thead>
             <tbody>
@@ -296,7 +296,7 @@ class App extends React.Component {
       
       const newQuery = {
          "db_name": document.getElementById("db_name").innerText.toLowerCase(),
-         "sql": "SELECT ID, name FROM sqlite_master WHERE type='table';"
+         "sql": "SELECT * FROM sqlite_master WHERE type='table';"
       };
 
       fetch('/', { method: 'POST', headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' }, body: JSON.stringify(newQuery) })
@@ -332,7 +332,7 @@ class App extends React.Component {
    render() {
       return (
          <>
-            <nav className="storehouse-navbar navbar navbar-expand-lg navbar-dark">
+            <nav onLoad={this.listTables} className="storehouse-navbar navbar navbar-expand-lg navbar-dark">
                <a className="storehouse_navbar_brand navbar-brand" href="/">
                   <Image sourcePath="./static/storehouse-cube-logo(1).png" />
                </a>
@@ -365,7 +365,7 @@ class App extends React.Component {
                </div>
             </nav>
             <Line />
-            <QueryForm onLoad={this.listTables} options={this.state.tables} />
+            <QueryForm options={this.state.tables} />
             <ResultsTable records={this.state.results} />
          </>
       );

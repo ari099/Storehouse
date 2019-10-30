@@ -52,9 +52,19 @@ h1,h2,h3,h4,h5,h6,.storehouse_heading {
    margin: 25px;
 }
 
+.storehouse_form_group_table {
+   height: 200px;
+   overflow: auto;
+}
+
 .storehouse_select {
    border: none;
    border-radius: 0px;
+   font-family: 'Operator Mono';
+}
+
+.storehouse_select option {
+   font-family: 'Operator Mono';
 }
 
 .storehouse_table {
@@ -63,10 +73,12 @@ h1,h2,h3,h4,h5,h6,.storehouse_heading {
 
 .storehouse_table th {
    font-family: 'Folktale';
+   text-align: center;
 }
 
 .storehouse_table td {
-   font-family: 'Lucida Console';
+   font-family: 'Operator Mono';
+   text-align: center;
 }
 
 .storehouse_textarea {
