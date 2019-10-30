@@ -129,6 +129,7 @@ const QueryForm = props => {
             <div className="storehouse_form_group form-group">
                <textarea
                   id="query"
+                  name="query"
                   className="storehouse_textarea form-control"
                   placeholder="Enter your query...."
                   defaultValue="SELECT * FROM demo"></textarea>
@@ -327,7 +328,6 @@ class App extends React.Component {
     * Set the state of 'results' to an empty array
     */
    sendFile = (e) => {
-      console.log(e.target.value);
       const fileInput = document.querySelector('#db_file_upload');
       const formData = new FormData();
 
@@ -340,7 +340,11 @@ class App extends React.Component {
 
       fetch('/upload_db_file/', options)
          .then(res => res.json())
-         .then(success => console.log(success));
+         .then(data => {
+            document.getElementById("query").value = "";
+            document.getElementById("db_name").innerText = data['name'].toUpperCase();
+            this.listTables(e);
+         });
    }
 
    /**
