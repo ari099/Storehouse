@@ -80,8 +80,7 @@ const NavigationBar = props => {
                run={props.handleQuery}
                open={props.handleOpenDB}
                save={props.handleSaveDB}
-               db_name={props.db_name}
-               options={props.options} />
+               db_name={props.db_name} />
          </div>
       </nav>
    );
@@ -114,9 +113,6 @@ const NavigationForm = props => {
             <Label
                id="db_name"
                text={props.db_name} />
-            <TableSelectBox>
-               {props.options}
-            </TableSelectBox>
          </div>
       </form>
    );
@@ -128,8 +124,19 @@ const NavigationForm = props => {
  */
 const QueryForm = props => {
    return (
-      <div className="container-fluid">
-         <QueryTextArea onLoad={props.onLoad} records={props.records} />
+      <div onLoad={props.onLoad} className="container-fluid">
+         <form className="storehouse_jumbotron">
+            <div className="storehouse_form_group form-group">
+               <textarea
+                  id="query"
+                  className="storehouse_textarea form-control"
+                  placeholder="Enter your query...."
+                  defaultValue="SELECT * FROM demo"></textarea>
+            </div>
+            <TableSelectBox>
+               {props.options}
+            </TableSelectBox>
+         </form>
       </div>
    );
 };
@@ -140,16 +147,15 @@ const QueryForm = props => {
  */
 const QueryTextArea = props => {
    return (
-      <form className="storehouse_jumbotron">
-         <div className="storehouse_form_group form-group">
-            <textarea
-               id="query"
-               className="storehouse_textarea form-control"
-               placeholder="Enter your query...."
-               defaultValue="SELECT * FROM demo"></textarea>
-         </div>
-         <ResultsTable onLoad={props.onLoad} records={props.records} />
-      </form>
+         <form className="storehouse_jumbotron">
+            <div className="storehouse_form_group form-group">
+               <textarea
+                  id="query"
+                  className="storehouse_textarea form-control"
+                  placeholder="Enter your query...."
+                  defaultValue="SELECT * FROM demo"></textarea>
+            </div>
+         </form>
    );
 };
 
@@ -159,7 +165,7 @@ const QueryTextArea = props => {
  */
 const ResultsTable = props => {
    return (
-      <div className="storehouse_form_group form-group">
+      <div onLoad={props.onLoad} className="storehouse_form_group form-group">
          <table className="storehouse_table table">
             <thead>
                <ResultsTableHeadingRow>
@@ -241,11 +247,13 @@ class App extends React.Component {
    constructor(props) {
       super(props);
       this.state = {
-         results: []
+         results: [],
+         tables: []
       };
       this.handleQuery = this.handleQuery.bind(this);
       this.handleOpenDB = this.handleOpenDB.bind(this);
       this.handleSaveDB = this.handleSaveDB.bind(this);
+      this.listTables = this.listTables.bind(this);
    }
 
    /**
@@ -254,20 +262,20 @@ class App extends React.Component {
    handleQuery = (e) => {
       e.preventDefault();
 
-      let newQuery = {
-         "db_name": document.getElementById("db_name").value.toLowerCase(),
+      const newQuery = {
+         "db_name": document.getElementById("db_name").innerText.toLowerCase(),
          "sql": document.getElementById("query").value
       };
 
-      fetch("/", { method: 'POST', headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' }, body: JSON.stringify(newQuery) })
+      fetch('/', { method: 'POST', headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' }, body: JSON.stringify(newQuery) })
          .then(res => res.json())
          .then(data => {
             let records = data.map(record => {
                return (
-                  <ResultsTableRow>
+                  <ResultsTableRow key={record[0]}>
                      {record.map(cell => {
                         return (
-                           <ResultTableCell text={cell} />
+                           <ResultsTableCell key={Math.round(Math.random() * 1000,0)} text={cell} />
                         );
                      })}
                   </ResultsTableRow>
@@ -280,31 +288,85 @@ class App extends React.Component {
    }
 
    /**
+    * Get tables from particular database
+    * to put in the TableSelectBox
+    */
+   listTables = (e) => {
+      console.log("list_tables");
+      
+      const newQuery = {
+         "db_name": document.getElementById("db_name").innerText.toLowerCase(),
+         "sql": "SELECT ID, name FROM sqlite_master WHERE type='table';"
+      };
+
+      fetch('/', { method: 'POST', headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' }, body: JSON.stringify(newQuery) })
+         .then(res => res.json())
+         .then(data => {
+            let records = data.map(record => {
+               return (
+                  <TableSelectOption key={Math.round(Math.random() * 1000,0)} value={record[1]} />
+               );
+            });
+            this.setState({tables: records});
+         }
+      );
+      console.log("run");
+   }
+
+   /**
     * Upload a SQLite 3 database to the API
     */
-   handleOpenDB = () => {
+   handleOpenDB = (e) => {
+      e.preventDefault();
       console.log("open");
    }
 
    /**
     * Download the current SQLite 3 database from the API
     */
-   handleSaveDB = () => {
+   handleSaveDB = (e) => {
+      e.preventDefault();
       console.log("save");
    }
 
    render() {
       return (
          <>
-            <NavigationBar
-               run={this.handleQuery}
-               open={this.handleOpenDB}
-               save={this.handleSaveDB}
-               db_name="demo" />
+            <nav className="storehouse-navbar navbar navbar-expand-lg navbar-dark">
+               <a className="storehouse_navbar_brand navbar-brand" href="/">
+                  <Image sourcePath="./static/storehouse-cube-logo(1).png" />
+               </a>
+               <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                  <span className="navbar-toggler-icon"></span>
+               </button>
+               <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
+                  <form className="form-inline navbar-nav">
+                     <div className="storehouse-form-group form-group">
+                        <Button
+                           id="run_query"
+                           classes="storehouse-btn btn nav-item"
+                           onClick={this.handleQuery}
+                           imageUrl="./static/storehouse_run.svg" />
+                        <Button
+                           id="open_db"
+                           classes="storehouse-btn btn nav-item"
+                           onClick={this.handleOpenDB}
+                           imageUrl="./static/storehouse_open_db.svg" />
+                        <Button
+                           id="save_db"
+                           classes="storehouse-btn btn nav-item"
+                           onClick={this.handleSaveDB}
+                           imageUrl="./static/storehouse_save_db.svg" />
+                        <Label
+                           id="db_name"
+                           text="demo" />
+                     </div>
+                  </form>
+               </div>
+            </nav>
             <Line />
-            <QueryForm
-               records={this.state.results}
-               onLoad={this.handleQuery.bind(this)} />
+            <QueryForm onLoad={this.listTables} options={this.state.tables} />
+            <ResultsTable records={this.state.results} />
          </>
       );
    }

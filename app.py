@@ -1,15 +1,17 @@
 #!/bin/python
 
 from flask import *
+import json
 from custom import query
 
 # Flask app object...
 app = Flask(__name__)
 
-@app.route('/', methods=['GET'])
+@app.route('/', methods=['GET','POST'])
 def index():
     if request.method == 'POST':
         content = request.json
+        print(content)
         db_name = content["db_name"]
         sql = content["sql"]
         results = query(db_name, sql)
