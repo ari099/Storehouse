@@ -34,7 +34,7 @@ const Label = props => {
  */
 const TableSelectBox = props => {
    return (
-      <select className="storehouse_select container form-control text-white bg-dark">
+      <select className="storehouse_select container form-control text-white bg-primary">
          {props.children}
       </select>
    )
@@ -210,7 +210,7 @@ const ResultsTableRow = props => {
  */
 const ResultsTableHeadingCell = props => {
    return (
-      <th className="storehouse_column border border-danger" scope="col">{props.text}</th>
+      <th className="storehouse_column border border-secondary" scope="col">{props.text}</th>
    )
 }
 
@@ -220,7 +220,7 @@ const ResultsTableHeadingCell = props => {
  */
 const ResultsTableCell = props => {
    return (
-      <td className="storehouse_column border border-danger" scope="col">{props.text}</td>
+      <td className="storehouse_column border border-secondary" scope="col">{props.text}</td>
    )
 }
 
@@ -284,7 +284,6 @@ class App extends React.Component {
             this.setState({results: records});
          }
       );
-      console.log("run");
    }
 
    /**
@@ -292,8 +291,6 @@ class App extends React.Component {
     * to put in the TableSelectBox
     */
    listTables = (e) => {
-      console.log("list_tables");
-      
       const newQuery = {
          "db_name": document.getElementById("db_name").innerText.toLowerCase(),
          "sql": "SELECT * FROM sqlite_master WHERE type='table';"
@@ -310,15 +307,40 @@ class App extends React.Component {
             this.setState({tables: records});
          }
       );
-      console.log("run");
+   }
+
+   /**
+    * Open file dialog
+    */
+   handleOpenDB = (e) => {
+      e.preventDefault();
+      document.getElementById('db_file_upload').click();
    }
 
    /**
     * Upload a SQLite 3 database to the API
+    * First, get the file object
+    * Send it through fetch to the right API method
+    * Use the results to reassign the database name label
+    * and update the table select box with the tables in the
+    * database
+    * Set the state of 'results' to an empty array
     */
-   handleOpenDB = (e) => {
-      e.preventDefault();
-      console.log("open");
+   sendFile = (e) => {
+      console.log(e.target.value);
+      const fileInput = document.querySelector('#db_file_upload');
+      const formData = new FormData();
+
+      formData.append('db_file_upload', fileInput.files[0]);
+
+      const options = {
+         method: 'POST',
+         body: formData
+      };
+
+      fetch('/upload_db_file/', options)
+         .then(res => res.json())
+         .then(success => console.log(success));
    }
 
    /**
@@ -360,6 +382,12 @@ class App extends React.Component {
                         <Label
                            id="db_name"
                            text="demo" />
+                        <input type="file"
+                           id="db_file_upload"
+                           name="db_file_upload"
+                           className="form-control"
+                           onChange={this.sendFile}
+                           hidden />
                      </div>
                   </form>
                </div>

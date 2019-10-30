@@ -53,7 +53,7 @@ h1,h2,h3,h4,h5,h6,.storehouse_heading {
 }
 
 .storehouse_form_group_table {
-   height: 200px;
+   height: 250px;
    overflow: auto;
 }
 
@@ -61,10 +61,12 @@ h1,h2,h3,h4,h5,h6,.storehouse_heading {
    border: none;
    border-radius: 0px;
    font-family: 'Operator Mono';
+   cursor: pointer;
 }
 
 .storehouse_select option {
    font-family: 'Operator Mono';
+   cursor: pointer;
 }
 
 .storehouse_table {

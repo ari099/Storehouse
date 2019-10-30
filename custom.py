@@ -2,6 +2,20 @@ import os, sys
 import json
 import sqlite3
 
+def get_filename(pathname):
+    '''
+    Get filename without the extension
+    :param pathname:
+    '''
+    return os.path.splitext(pathname)[0]
+
+def get_extension(pathname):
+    '''
+    Get extension of a filename
+    :param pathname:
+    '''
+    return os.path.splitext(pathname)[1]
+
 # Important methods
 def query(db_name, sql):
     '''
