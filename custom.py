@@ -2,6 +2,28 @@ import os, sys
 import json
 import sqlite3
 
+def find(name, path):
+    '''
+    Finds first match of file that matches 'name'
+    :param name:
+    :param path:
+    '''
+    for root, dirs, files in os.walk(path):
+        if name in files:
+            return os.path.join(root, name)
+
+def exists(name, path):
+    '''
+    Check if filename exists in the path specified
+    :param name:
+    :param path:
+    '''
+    for root, dirs, files in os.walk(path):
+        if name in files:
+            return True
+    
+    return False
+
 def get_filename(pathname):
     '''
     Get filename without the extension

@@ -3,7 +3,7 @@
 from flask import *
 import os
 import json
-from custom import query, get_extension, get_filename
+from custom import query, get_extension, get_filename, find, exists
 from werkzeug import secure_filename
 
 # Flask app object...
@@ -33,6 +33,15 @@ def upload_db_file():
     }
     new_file.save(os.path.join('./db', filename))
     return json.dumps(fileinfo)
+
+@app.route('/download_db_file/', methods=['POST'])
+def download_db_file():
+    content = request.json
+    db_name = content["db_name"]
+    files = os.listdir('./db')
+    filepath = [filename for filename in files if db_name in filename]
+    
+    return send_file('./db/'+filepath[0], attachment_filename=filepath[0])
 
 @app.route('/about/', methods=['GET'])
 def about():

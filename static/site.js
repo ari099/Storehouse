@@ -344,6 +344,7 @@ class App extends React.Component {
             document.getElementById("query").value = "";
             document.getElementById("db_name").innerText = data['name'].toUpperCase();
             this.listTables(e);
+            this.setState({results: []});
          });
    }
 
@@ -352,7 +353,31 @@ class App extends React.Component {
     */
    handleSaveDB = (e) => {
       e.preventDefault();
-      console.log("save");
+
+      const downloadJson = {
+         "db_name": document.getElementById("db_name").innerText.toLowerCase()
+      };
+
+      const options = {
+         method: 'POST',
+         headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+         },
+         body: JSON.stringify(downloadJson)
+      };
+
+      fetch('/download_db_file/', options)
+         .then(res => res.blob())
+         .then(data => {
+            let url = window.URL.createObjectURL(data);
+            let a = document.createElement('a');
+            a.href = url;
+            a.download = downloadJson['db_name'] + ".sqlite3";
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+         });
    }
 
    render() {
@@ -367,7 +392,7 @@ class App extends React.Component {
                </button>
                <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
                   <form className="form-inline navbar-nav">
-                     <div className="storehouse-form-group form-group">
+                     <div id="admin_bar" className="storehouse-form-group form-group">
                         <Button
                            id="run_query"
                            classes="storehouse-btn btn nav-item"
