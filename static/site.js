@@ -23,7 +23,7 @@ const Label = props => {
    return (
       <div
          id={props.id}
-         className="storehouse_label bg-dark text-white">{props.text.toUpperCase()}</div>
+         className="storehouse_label text-white">{props.text.toUpperCase()}</div>
    );
 }
 
@@ -34,7 +34,7 @@ const Label = props => {
  */
 const TableSelectBox = props => {
    return (
-      <select className="storehouse_select container form-control text-white bg-primary">
+      <select className="storehouse_select container form-control text-white">
          {props.children}
       </select>
    )
@@ -211,7 +211,7 @@ const ResultsTableRow = props => {
  */
 const ResultsTableHeadingCell = props => {
    return (
-      <th className="storehouse_column border border-secondary" scope="col">{props.text}</th>
+      <th className="storehouse_column border-0 border-danger" scope="col">{props.text}</th>
    )
 }
 
@@ -221,7 +221,7 @@ const ResultsTableHeadingCell = props => {
  */
 const ResultsTableCell = props => {
    return (
-      <td className="storehouse_column border border-secondary" scope="col">{props.text}</td>
+      <td className="storehouse_column border-0 border-danger" scope="col">{props.text}</td>
    )
 }
 
@@ -385,7 +385,7 @@ class App extends React.Component {
          <>
             <nav onLoad={this.listTables} className="storehouse-navbar navbar navbar-expand-lg navbar-dark">
                <a className="storehouse_navbar_brand navbar-brand" href="/">
-                  <Image sourcePath="./static/storehouse-cube-logo(1).png" />
+                  <Image sourcePath="./static/storehouse-cube-logo(2).png" />
                </a>
                <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
                   <span className="navbar-toggler-icon"></span>

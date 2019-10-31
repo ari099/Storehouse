@@ -1,9 +1,26 @@
 body {
-   background-image: url('./storehouse_bg(1).png');
+   background-image: url('./red-barn-unsplash.jpg');
    background-repeat: no-repeat;
    background-attachment: fixed;
    background-position: center;
+   background-size: cover;
 }
+
+/* width */
+::-webkit-scrollbar {
+   width: 15px;
+ }
+ 
+ /* Track */
+ ::-webkit-scrollbar-track {
+   background: rgba(0, 0, 0, 0.5);
+ }
+ 
+ /* Handle */
+ ::-webkit-scrollbar-thumb {
+   background: rgba(255, 255, 255, 0.5);
+   cursor: pointer;
+ }
 
 h1,h2,h3,h4,h5,h6,.storehouse_heading {
    font-family: 'Food Secret';
@@ -12,7 +29,7 @@ h1,h2,h3,h4,h5,h6,.storehouse_heading {
 }
 
 .storehouse-btn {
-   background: black;
+   background: rgba(0, 0, 0, 0);
    font-family: 'Food Secret';
    border-radius: 0px;
    margin: 10px;
@@ -20,6 +37,7 @@ h1,h2,h3,h4,h5,h6,.storehouse_heading {
 
 .storehouse_column {
    color: rgb(150, 150, 150);
+   background: rgba(0, 0, 0, 0.5);
 }
 
 .storehouse_query_button_image {
@@ -32,6 +50,7 @@ h1,h2,h3,h4,h5,h6,.storehouse_heading {
 }
 
 .storehouse_label {
+   background: rgba(0, 0, 0, 0.5);
    padding-top: 5px;
    padding-bottom: 5px;
    padding-left: 25px;
@@ -41,7 +60,12 @@ h1,h2,h3,h4,h5,h6,.storehouse_heading {
 }
 
 .storehouse-navbar {
-   background: black;
+   background: rgba(0, 0, 0, 0);
+   transition: background 0.2s;
+}
+
+.storehouse-navbar:hover {
+   background: rgba(0, 0, 0, 0.2);
 }
 
 .storehouse_navbar_brand {
@@ -58,19 +82,25 @@ h1,h2,h3,h4,h5,h6,.storehouse_heading {
 }
 
 .storehouse_select {
+   background: rgba(0, 0, 0, 0.75);
    border: none;
    border-radius: 0px;
-   font-family: 'Operator Mono';
+   font-family: 'Food Secret';
    cursor: pointer;
 }
 
+.storehouse_select:focus {
+   background: rgba(0, 0, 0, 0.75);
+}
+
 .storehouse_select option {
-   font-family: 'Operator Mono';
+   background: rgba(0, 0, 0, 0.5);
+   font-family: 'Food Secret';
    cursor: pointer;
 }
 
 .storehouse_table {
-   background: rgba(0, 0, 0, 0.5);
+   background: rgba(0, 0, 0, 0.75);
 }
 
 .storehouse_table th {
@@ -79,27 +109,28 @@ h1,h2,h3,h4,h5,h6,.storehouse_heading {
 }
 
 .storehouse_table td {
-   font-family: 'Operator Mono';
+   font-family: 'Folktale';
+   color: white;
    text-align: center;
 }
 
 .storehouse_textarea {
    border-radius: 0px;
-   background: rgba(0, 0, 0, 0.5);
+   background: rgba(0, 0, 0, 0.85);
    color: white;
    margin: 0px;
    padding: 25px;
-   border: 1px solid rgb(87, 87, 87);
-   height: 250px;
+   border: 0px;
+   height: 150px;
    width: 100%;
    font-family: 'Operator Mono';
 }
 
 .storehouse_textarea:focus {
    outline: none !important;
-   background: rgba(0, 0, 0, 0.5);
+   background: rgba(0, 0, 0, 0.85);
    color: white;
-   border: 1px solid white;
+   border: 0px;
 }
 
 .storehouse_image {
