@@ -23,7 +23,7 @@ const Label = props => {
    return (
       <div
          id={props.id}
-         className="storehouse_label text-white">{props.text.toUpperCase()}</div>
+         className={props.type + " text-white"}>{props.text.toUpperCase()}</div>
    );
 }
 
@@ -112,6 +112,7 @@ const NavigationForm = props => {
                imageUrl="./static/storehouse_save_db.svg" />
             <Label
                id="db_name"
+               type="storehouse_label"
                text={props.db_name} />
          </div>
       </form>
@@ -348,9 +349,9 @@ class App extends React.Component {
                document.getElementById("db_name").innerText = data['name'].toUpperCase();
                this.listTables(e);
                this.setState({results: []});
-               this.setState({errorMessage: ""});
+               this.setState({errorMessage: <></>});
             } else {
-               this.setState({errorMessage: "Please upload an actual SQLite 3 database"});
+               this.setState({errorMessage: <Label id="errorMessage" type="storehouse_danger_label" text="Please upload an actual SQLite 3 database" />});
             }
          });
    }
@@ -417,6 +418,7 @@ class App extends React.Component {
                            imageUrl="./static/storehouse_save_db.svg" />
                         <Label
                            id="db_name"
+                           type="storehouse_label"
                            text="demo" />
                         <input type="file"
                            id="db_file_upload"
@@ -424,6 +426,7 @@ class App extends React.Component {
                            className="form-control"
                            onChange={this.sendFile}
                            hidden />
+                        {this.state.errorMessage}
                      </div>
                   </form>
                </div>
