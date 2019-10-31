@@ -249,7 +249,8 @@ class App extends React.Component {
       super(props);
       this.state = {
          results: [],
-         tables: []
+         tables: [],
+         errorMessage: null
       };
       this.handleQuery = this.handleQuery.bind(this);
       this.handleOpenDB = this.handleOpenDB.bind(this);
@@ -285,6 +286,7 @@ class App extends React.Component {
             this.setState({results: records});
          }
       );
+      this.listTables(e);
    }
 
    /**
@@ -300,12 +302,12 @@ class App extends React.Component {
       fetch('/', { method: 'POST', headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' }, body: JSON.stringify(newQuery) })
          .then(res => res.json())
          .then(data => {
-            let records = data.map(record => {
+            let options = data.map(option => {
                return (
-                  <TableSelectOption key={Math.round(Math.random() * 1000,0)} value={record[1]} />
+                  <TableSelectOption key={Math.round(Math.random() * 1000,0)} value={option[1]} />
                );
             });
-            this.setState({tables: records});
+            this.setState({tables: options});
          }
       );
    }
@@ -341,10 +343,15 @@ class App extends React.Component {
       fetch('/upload_db_file/', options)
          .then(res => res.json())
          .then(data => {
-            document.getElementById("query").value = "";
-            document.getElementById("db_name").innerText = data['name'].toUpperCase();
-            this.listTables(e);
-            this.setState({results: []});
+            if(data['name'] !== null) {
+               document.getElementById("query").value = "";
+               document.getElementById("db_name").innerText = data['name'].toUpperCase();
+               this.listTables(e);
+               this.setState({results: []});
+               this.setState({errorMessage: ""});
+            } else {
+               this.setState({errorMessage: "Please upload an actual SQLite 3 database"});
+            }
          });
    }
 
