@@ -15,7 +15,11 @@ def index():
         content = request.json
         db_name = content["db_name"]
         sql = content["sql"]
-        results = query(db_name, sql)
+        try:
+            results = query(db_name, sql)
+        except Exception as e:
+            results = {'Error': str(e) }
+        
         return json.dumps(results)
 
     return render_template('index.html', page='Home Page')

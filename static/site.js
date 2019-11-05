@@ -273,18 +273,24 @@ class App extends React.Component {
       fetch('/', { method: 'POST', headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' }, body: JSON.stringify(newQuery) })
          .then(res => res.json())
          .then(data => {
-            let records = data.map(record => {
-               return (
-                  <ResultsTableRow key={record[0]}>
-                     {record.map(cell => {
-                        return (
-                           <ResultsTableCell key={Math.round(Math.random() * 1000,0)} text={cell} />
-                        );
-                     })}
-                  </ResultsTableRow>
-               );
-            });
-            this.setState({results: records});
+            if(data.length !== undefined) {
+               let records = data.map(record => {
+                  return (
+                     <ResultsTableRow key={record[0]}>
+                        {record.map(cell => {
+                           return (
+                              <ResultsTableCell key={Math.round(Math.random() * 1000,0)} text={cell} />
+                           );
+                        })}
+                     </ResultsTableRow>
+                  );
+               });
+               this.setState({results: records});
+               this.setState({errorMessage: <></>});
+            } else {
+               this.setState({results: []});
+               this.setState({errorMessage: <Label id="errorMessage" type="storehouse_danger_label" text={data['Error']} /> });
+            }
          }
       );
       this.listTables(e);
