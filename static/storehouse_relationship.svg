@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="210mm"
+   height="190.19mm"
+   viewBox="0 0 210 190.19"
+   version="1.1"
+   id="svg8"
+   inkscape:version="0.92.3 (2405546, 2018-03-11)"
+   sodipodi:docname="storehouse_relationship.svg">
+  <defs
+     id="defs2" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.35"
+     inkscape:cx="465.19863"
+     inkscape:cy="560"
+     inkscape:document-units="mm"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1007"
+     inkscape:window-height="991"
+     inkscape:window-x="952"
+     inkscape:window-y="0"
+     inkscape:window-maximized="0" />
+  <metadata
+     id="metadata5">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,-106.80999)">
+    <ellipse
+       style="opacity:1;fill:#cccccc;fill-opacity:1;stroke:none;stroke-width:31.02514458;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0.42696629"
+       id="path869"
+       cx="49.892857"
+       cy="140.89581"
+       rx="36.285713"
+       ry="12.473214" />
+    <ellipse
+       ry="29.883743"
+       rx="86.934525"
+       cy="234.6339"
+       cx="116.41666"
+       id="ellipse871"
+       style="opacity:1;fill:#cccccc;fill-opacity:1;stroke:none;stroke-width:74.33107758;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0.42696629" />
+    <path
+       style="fill:#cccccc;stroke:none;stroke-width:0.26458332px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;fill-opacity:1;opacity:1"
+       d="m 44.60119,146.56547 38.55357,68.03572 h 46.1131 L 60.47619,145.80952 Z"
+       id="path873"
+       inkscape:connector-curvature="0" />
+  </g>
+</svg>

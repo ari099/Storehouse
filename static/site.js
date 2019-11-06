@@ -235,7 +235,6 @@ const Button = props => {
       <button
          id={props.id}
          name="storehouse_nav_button"
-         disabled={!props.enabled}
          onClick={props.onClick}
          className={props.classes}>
          <img className="storehouse_query_button_image" src={props.imageUrl} />
@@ -264,8 +263,7 @@ class App extends React.Component {
          tables: [],
          errorMessage: null,
          showDesignView: false,
-         currentDB: <Label id="db_name" type="storehouse_label" text="demo" />,
-         buttonsEnabled: true
+         currentDB: <Label id="db_name" type="storehouse_label" text="demo" />
       };
 
       this.handleQuery = this.handleQuery.bind(this);
@@ -412,16 +410,56 @@ class App extends React.Component {
 
    handleCheck = () => {
       this.setState({showDesignView: !this.state.showDesignView});
-      this.setState({buttonsEnabled: !this.state.buttonsEnabled});
 
       if(this.state.showDesignView === false)
          this.listTables();
    }
 
+   handleEntity = (e) => {
+      e.preventDefault();
+   }
+
+   handleRelationship = (e) => {
+      e.preventDefault();
+   }
+
    render() {
       let formToShow;
-      if (this.state.showDesignView) formToShow = <svg className="storehouse_design_ui container-fluid"></svg>;
-      else formToShow = <><QueryForm options={this.state.tables} /><ResultsTable records={this.state.results} /></>;
+      let controlsToShow;
+      if (this.state.showDesignView) {
+         formToShow = <svg className="storehouse_design_ui container-fluid"></svg>;
+         controlsToShow = <>
+            <Button
+               id="add_entity"
+               classes="storehouse-btn btn nav-item"
+               onClick={this.handleEntity}
+               imageUrl="./static/storehouse_entity.svg" />
+            <Button
+               id="add_relationship"
+               classes="storehouse-btn btn nav-item"
+               onClick={this.handleRelationship}
+               imageUrl="./static/storehouse_relationship.svg" />
+         </>;
+      } else {
+         formToShow = <><QueryForm options={this.state.tables} /><ResultsTable records={this.state.results} /></>;
+         controlsToShow = <>
+            <Button
+               id="run_query"
+               classes="storehouse-btn btn nav-item"
+               onClick={this.handleQuery}
+               imageUrl="./static/storehouse_run.svg" />
+            <Button
+               id="open_db"
+               classes="storehouse-btn btn nav-item"
+               onClick={this.handleOpenDB}
+               imageUrl="./static/storehouse_open_db.svg" />
+            <Button
+               id="save_db"
+               classes="storehouse-btn btn nav-item"
+               onClick={this.handleSaveDB}
+               imageUrl="./static/storehouse_save_db.svg" />
+         </>;
+      }
 
       return (
          <>
@@ -435,24 +473,7 @@ class App extends React.Component {
                <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
                   <form className="form-inline navbar-nav">
                      <div id="admin_bar" className="storehouse-form-group form-group">
-                        <Button
-                           id="run_query"
-                           classes="storehouse-btn btn nav-item"
-                           enabled={this.state.buttonsEnabled}
-                           onClick={this.handleQuery}
-                           imageUrl="./static/storehouse_run.svg" />
-                        <Button
-                           id="open_db"
-                           classes="storehouse-btn btn nav-item"
-                           enabled={this.state.buttonsEnabled}
-                           onClick={this.handleOpenDB}
-                           imageUrl="./static/storehouse_open_db.svg" />
-                        <Button
-                           id="save_db"
-                           classes="storehouse-btn btn nav-item"
-                           enabled={this.state.buttonsEnabled}
-                           onClick={this.handleSaveDB}
-                           imageUrl="./static/storehouse_save_db.svg" />
+                        {controlsToShow}
                         {this.state.currentDB}
                         <input type="file"
                            id="db_file_upload"
