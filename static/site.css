@@ -51,6 +51,11 @@ h1,h2,h3,h4,h5,h6,.storehouse_heading {
    background: rgba(0, 0, 0, 0.5);
 }
 
+.storehouse_design_ui {
+   background: rgba(0, 0, 0, 0.5);
+   min-height: 75vh;
+}
+
 .storehouse_query_button_image {
    width: 20px;
 }
@@ -173,6 +178,11 @@ h1,h2,h3,h4,h5,h6,.storehouse_heading {
    font-family: 'Folktale';
    color: white;
    text-align: center;
+}
+
+.storehouse-text {
+   font-family: 'Food Secret';
+   color: gray;
 }
 
 .storehouse_textarea {

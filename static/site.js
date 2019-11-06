@@ -235,12 +235,23 @@ const Button = props => {
       <button
          id={props.id}
          name="storehouse_nav_button"
+         disabled={!props.enabled}
          onClick={props.onClick}
          className={props.classes}>
          <img className="storehouse_query_button_image" src={props.imageUrl} />
       </button>
    );
 };
+
+/**
+ * Switch component
+ * @param props 
+ */
+const Switch = props => {
+   return (
+      <input type="checkbox" onChange={props.onChange} className="storehouse_switch custom-control-input" id="customSwitch1" />
+   );
+}
 
 /**
  * Main application container component
@@ -251,11 +262,16 @@ class App extends React.Component {
       this.state = {
          results: [],
          tables: [],
-         errorMessage: null
+         errorMessage: null,
+         showDesignView: false,
+         currentDB: <Label id="db_name" type="storehouse_label" text="demo" />,
+         buttonsEnabled: true
       };
+
       this.handleQuery = this.handleQuery.bind(this);
       this.handleOpenDB = this.handleOpenDB.bind(this);
       this.handleSaveDB = this.handleSaveDB.bind(this);
+      this.handleCheck = this.handleCheck.bind(this);
       this.listTables = this.listTables.bind(this);
    }
 
@@ -352,7 +368,7 @@ class App extends React.Component {
          .then(data => {
             if(data['name'] !== null) {
                document.getElementById("query").value = "";
-               document.getElementById("db_name").innerText = data['name'].toUpperCase();
+               this.setState({currentDB: <Label id="db_name" type="storehouse_label" text={data['name'].toUpperCase()} />})
                this.listTables(e);
                this.setState({results: []});
                this.setState({errorMessage: <></>});
@@ -394,7 +410,19 @@ class App extends React.Component {
          });
    }
 
+   handleCheck = () => {
+      this.setState({showDesignView: !this.state.showDesignView});
+      this.setState({buttonsEnabled: !this.state.buttonsEnabled});
+
+      if(this.state.showDesignView === false)
+         this.listTables();
+   }
+
    render() {
+      let formToShow;
+      if (this.state.showDesignView) formToShow = <svg className="storehouse_design_ui container-fluid"></svg>;
+      else formToShow = <><QueryForm options={this.state.tables} /><ResultsTable records={this.state.results} /></>;
+
       return (
          <>
             <nav onLoad={this.listTables} className="storehouse-navbar navbar navbar-expand-lg navbar-dark">
@@ -410,36 +438,39 @@ class App extends React.Component {
                         <Button
                            id="run_query"
                            classes="storehouse-btn btn nav-item"
+                           enabled={this.state.buttonsEnabled}
                            onClick={this.handleQuery}
                            imageUrl="./static/storehouse_run.svg" />
                         <Button
                            id="open_db"
                            classes="storehouse-btn btn nav-item"
+                           enabled={this.state.buttonsEnabled}
                            onClick={this.handleOpenDB}
                            imageUrl="./static/storehouse_open_db.svg" />
                         <Button
                            id="save_db"
                            classes="storehouse-btn btn nav-item"
+                           enabled={this.state.buttonsEnabled}
                            onClick={this.handleSaveDB}
                            imageUrl="./static/storehouse_save_db.svg" />
-                        <Label
-                           id="db_name"
-                           type="storehouse_label"
-                           text="demo" />
+                        {this.state.currentDB}
                         <input type="file"
                            id="db_file_upload"
                            name="db_file_upload"
                            className="form-control"
                            onChange={this.sendFile}
                            hidden />
+                        <div className="custom-control custom-switch">
+                           <Switch onChange={this.handleCheck} />
+                           <label className="storehouse-text custom-control-label" htmlFor="customSwitch1">Design View</label>
+                        </div>
                         {this.state.errorMessage}
                      </div>
                   </form>
                </div>
             </nav>
             <Line />
-            <QueryForm options={this.state.tables} />
-            <ResultsTable records={this.state.results} />
+            {formToShow}
          </>
       );
    }

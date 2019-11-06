@@ -47,6 +47,13 @@ def download_db_file():
     
     return send_file('./db/'+filepath[0], attachment_filename=filepath[0])
 
+@app.route('/design/', methods=['GET','POST'])
+def design():
+    if request.method == 'POST':
+        pass
+    
+    return render_template('design.html', page='Design Page')
+
 @app.route('/about/', methods=['GET'])
 def about():
     return render_template('about.html', page='Home Page')
