@@ -5,7 +5,7 @@
 A simple SQLite database manager created with Flask and React JS. It is meant for aiding the design and development of any SQLite file database you decide to create for whatever purpose (mobile, web, etc.).
 
 ## Table of Contents
-* [Release History](https://github.com/ari099/Storehouse/blob/master/README.md#Release%20History)
+* [Release History](https://github.com/ari099/Storehouse/blob/master/README.md#release-history)
 
 ## Release History
 * 0.0.1
